@@ -19,6 +19,8 @@ ig.module(
 .defines(function(){
 
 FoggyGame = ig.Game.extend({
+  // The height and width <in tiles> of the area to be covered by fog
+  // You must also provide the tile size in pixels
   mapWidth: 45,
   mapHeight: 30,
   tileSize: 8,
@@ -28,7 +30,7 @@ FoggyGame = ig.Game.extend({
   },
 
   draw: function() {
-    // The draw function takes a callback function
+    // To draw fog you must provide a callback function, see below
     this.fog.draw(this.viewedTile.bind(this));
   },
 
