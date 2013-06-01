@@ -7,6 +7,9 @@ An [Impact.js](http://impactjs.com) plugin that draws a fog of war on top of you
 3. Create an instance of the Fog class:`this.fog = new Fog(mapWidth, mapHeight, tileSize)`
 4. In your draw function, call:`this.fog.draw(this.viewedTileCallback)`
 
+###Demo
+http://leftaxe.com/
+
 ## Example Code
 ```
 ig.module(
