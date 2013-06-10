@@ -5,65 +5,67 @@ ig.module(
   'impact.impact'
 )
 .defines(function() {
-  Fog = ig.Class.extend({
 
-    // The fog color, defaults to black
-    fillStyle: 'rgba(0, 0, 0, 1)',
+ig.Fog = ig.Class.extend({
 
-    init: function (mapWidth, mapHeight, tileSize) {
-      this.mapWidth = mapWidth;
-      this.mapHeight = mapHeight;
-      this.tileSize = tileSize;
-    },
+  // The fog color, defaults to black
+  fillStyle: 'rgba(0, 0, 0, 1)',
 
-    draw: function (viewedTileCallback) {
-      var fogColumns = [];
-      var column = null;
+  init: function (mapWidth, mapHeight, tileSize) {
+    this.mapWidth = mapWidth;
+    this.mapHeight = mapHeight;
+    this.tileSize = tileSize;
+  },
 
-      // Iterate through each tile in our grid
-      // One column at a time, from left to right
-      for (var x = 0; x < this.mapWidth; x++) {
-        for (var y = 0; y < this.mapHeight; y++) {
-          if (!column) {
-            column = { x: x, y: y, tiles: 0 };
-          }
+  draw: function (viewedTileCallback) {
+    var fogColumns = [];
+    var column = null;
 
-          if (viewedTileCallback(x, y)) {
-            // We've run into a viewed tile
-            // Snip this fog column and store it in our buffer
-            if (column.tiles > 0) {
-              fogColumns.push(column);
-            }
-            column = null;
-          } else if ((y + 1) === this.mapHeight) {
-            // We've reached the end of the column
-            // Store it and start a new one
-            column.tiles++;
+    // Iterate through each tile in our grid
+    // One column at a time, from left to right
+    for (var x = 0; x < this.mapWidth; x++) {
+      for (var y = 0; y < this.mapHeight; y++) {
+        if (!column) {
+          column = { x: x, y: y, tiles: 0 };
+        }
+
+        if (viewedTileCallback(x, y)) {
+          // We've run into a viewed tile
+          // Snip this fog column and store it in our buffer
+          if (column.tiles > 0) {
             fogColumns.push(column);
-            column = null;
-          } else {
-            // The fog column grows
-            column.tiles++;
           }
+          column = null;
+        } else if ((y + 1) === this.mapHeight) {
+          // We've reached the end of the column
+          // Store it and start a new one
+          column.tiles++;
+          fogColumns.push(column);
+          column = null;
+        } else {
+          // The fog column grows
+          column.tiles++;
         }
       }
-
-      for (var i = 0; i < fogColumns.length; i++) {
-        var col = fogColumns[i];
-        this._drawColumn(col.x, col.y, col.tiles);
-      }
-    },
-
-    // Draws a vertical strip of fog using the 2D Canvas API
-    _drawColumn: function (x, y, tiles) {
-      ig.system.context.fillStyle = this.fillStyle;
-      ig.system.context.fillRect(this._realSize(x), this._realSize(y), this._realSize(1), this._realSize(tiles));
-    },
-
-    // Converts a location in our tile grid to the actual location in the game canvas
-    _realSize: function (number) {
-      return number * this.tileSize * ig.system.scale;
     }
 
-  });
+    for (var i = 0; i < fogColumns.length; i++) {
+      var col = fogColumns[i];
+      this._drawColumn(col.x, col.y, col.tiles);
+    }
+  },
+
+  // Draws a vertical strip of fog using the 2D Canvas API
+  _drawColumn: function (x, y, tiles) {
+    ig.system.context.fillStyle = this.fillStyle;
+    ig.system.context.fillRect(this._realSize(x), this._realSize(y), this._realSize(1), this._realSize(tiles));
+  },
+
+  // Converts a location in our tile grid to the actual location in the game canvas
+  _realSize: function (number) {
+    return number * this.tileSize * ig.system.scale;
+  }
+
+});
+
 });

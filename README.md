@@ -29,7 +29,7 @@ FoggyGame = ig.Game.extend({
   tileSize: 8,
 
   init: function() {
-    this.fog = new Fog(this.mapWidth, this.mapHeight, this.tileSize);
+    this.fog = new ig.Fog(this.mapWidth, this.mapHeight, this.tileSize);
   },
 
   draw: function() {
