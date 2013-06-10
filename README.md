@@ -5,7 +5,8 @@ An [Impact.js](http://impactjs.com) plugin that draws a fog of war on top of you
 1. Copy `fog.js` to `lib/plugins/`
 2. Require the plugin in main.js: `'plugins.fog'`
 3. Create an instance of the Fog class:`this.fog = new ig.Fog(mapWidth, mapHeight, tileSize)`
-4. In your draw function, call:`this.fog.draw(this.viewedTileCallback)`
+4. Define a callback that answers if a tile has been viewed or not: `this.viewedTileCallback = function (x, y) { // }`
+5. In your draw function, call:`this.fog.draw(this.viewedTileCallback)`
 
 ###Demo
 http://leftaxe.com/
