@@ -55,6 +55,7 @@ ig.Fog = ig.Class.extend({
   _drawColumn: function (x, y, tiles) {
     ig.system.context.fillStyle = this.fillStyle;
     ig.system.context.fillRect(this._realSize(x), this._realSize(y), this._realSize(1), this._realSize(tiles));
+    ig.Image.drawCount++;
   },
 
   // Converts a location in our tile grid to the actual location in the game canvas
