@@ -19,16 +19,12 @@ ig.Fog = ig.Class.extend({
 
   draw: function (viewedTileCallback) {
     var fogColumns = [];
-    var column = null;
+    var column = { x: 0, y: 0, tiles: 0 };
 
     // Iterate through each tile in our grid
     // One column at a time, from left to right
     for (var x = 0; x < this.mapWidth; x++) {
       for (var y = 0; y < this.mapHeight; y++) {
-        if (!column) {
-          column = { x: x, y: y, tiles: 0 };
-        }
-
         if (viewedTileCallback(x, y)) {
           // We've run into a viewed tile
           // Snip this fog column and store it in our buffer
@@ -59,6 +55,7 @@ ig.Fog = ig.Class.extend({
   _drawColumn: function (x, y, tiles) {
     ig.system.context.fillStyle = this.fillStyle;
     ig.system.context.fillRect(this._realSize(x), this._realSize(y), this._realSize(1), this._realSize(tiles));
+    ig.Image.drawCount++;
   },
 
   // Converts a location in our tile grid to the actual location in the game canvas
